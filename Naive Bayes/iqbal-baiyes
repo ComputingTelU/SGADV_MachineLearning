@@ -1,5 +1,5 @@
-import xlrd
-import numpy as np
+# import xlrd
+# import numpy as np
 from collections import defaultdict
 
 def getData(filename, index_sheet):
@@ -53,12 +53,33 @@ def tabellikeli(sheet, atribut, kelas, hasil):
 		return totalyes
 	else:
 		return totalno
+def proball(sheet, kelas, hasil):
+	sheet = getData("dummy.xls",0)
+	summ =0
+	for i in range(1, sheet.nrow):
+		if (data.nrow(i)[kelas].value == hasil):
+			summ+=1
+	return summ/sheet.nrow
 
 def prob(hasil,atr1,atr2,atr3,atr4):
 	sheet = getData("dummy.xls",0)
 	lh1 = tabellikeli(sheet,0,atr1,hasil)
-	lh1 = tabellikeli(sheet,1,atr2,hasil)
-	lh1 = tabellikeli(sheet,2,atr3,hasil)
-	lh1 = tabellikeli(sheet,3,atr4,hasil)
+	lh2 = tabellikeli(sheet,1,atr2,hasil)
+	lh3 = tabellikeli(sheet,2,atr3,hasil)
+	lh4 = tabellikeli(sheet,3,atr4,hasil)
 
-	probb = 
+	pr = proball(sheet,4,hasil)
+
+	return lh1*lh2*lh3*lh4*pr
+
+def test(atr1,atr2,atr3,atr4):
+	yes = postProb("Yes", atr1, atr2, atr3, atr4)
+	no = postProb("No", atr1, atr2, atr3, atr4)
+
+	if yes>no:
+		return "Yes"
+	else:
+		return "No"
+
+print "tesing yes ", test("Yes", "Dawn", "Cloudy", "Strong")
+print "tesing yes ", test("no", "evening", "clear", "weak")
